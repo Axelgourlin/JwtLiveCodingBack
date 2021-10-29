@@ -1,6 +1,13 @@
 const connection = require("../config-db");
 const db = connection.promise();
 
+// const validate = (data) => {
+//   return Joi.object({
+//     ident: Joi.string().max(254).required(),
+//     password: Joi.string().max(255).required(),
+//   }).validate(data, { abortEarly: false }).error;
+// };
+
 const findUsers = async () => {
   try {
     const users = await db.query("SELECT * FROM user");
@@ -27,7 +34,6 @@ const create = async (email, hashedPassword) => {
       "INSERT INTO user (user_ident, user_password) VALUES (?,?)",
       [email, hashedPassword]
     );
-    console.log(response[0]);
     return response[0];
   } catch (error) {
     return Promise.reject(error);
